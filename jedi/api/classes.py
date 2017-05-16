@@ -159,9 +159,12 @@ class BaseDefinition(object):
                     pass
 
             if name.api_type == 'module':
-                module_context, = name.infer()
-                for n in reversed(module_context.py__name__().split('.')):
-                    yield n
+                try:
+                    module_context, = name.infer()
+                    for n in reversed(module_context.py__name__().split('.')):
+                        yield n
+                except ValueError:
+                    return
             else:
                 yield name.string_name
 
